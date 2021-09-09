@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Owl-Sign in</title>
+
+    
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+      #image{
+      	border : 1px solid #E9ECEF ;
+      	border-radius: 5px;
+      	background: #E9ECEF;
+      	padding:1px;
+      }
+      #image > button{
+      	all:unset;
+      }
+      #major_id{
+      	width:400px;
+      }
+      #email{width: unset;}
+      #submit{
+      	    border: unset;
+      	    color: white;
+			background : #007bff;
+	  }
+	  form{
+	  	background: white;
+	  	    padding: 5vh;
+	  	    margin-bottom: 5vh;
+	  	    margin-top: 5vh;
+	  }
+    </style>
+
+    
+    
+  </head>
+  <body class="text-center" style="display:flex;    background: #F5F5F6;">
+    
+<div style="margin:auto">
+
+  <form action=''  method='post'  enctype="multipart/form-data"  novalidate>
+  {{ form.hidden_tag() }}
+        <img class="mb-4" src="{{ url_for('static', filename='images/scsulogo.png') }}" alt="" style="margin-top:10px !important" width="75" height="75"/>
+
+    <h1 class="h3 mb-3 fw-normal">Please Sign Up</h1>
+	  {% if user_exists %}
+    <p> User already exists. If that's your account log in<a href='/login'>  here</a>   </p>
+      {% endif  %}
+      {% if email_format%}
+      <p> Email format is invalid. make sure it's a southernct.edu email.</p>
+      {%endif%}
+	 <div class="form-floating">
+    <label for="floatingInput">Select an Image </label>
+     <p > {{ form.image }}</p>
+    </div>
+    
+    <div class="form-floating">
+         <p > {{ form.email(size=50) }}</p>
+    </div>
+
+    <div class="form-floating">
+        
+         <p > {{ form.first_name(size=50) }}</p>
+        </div>
+
+     <div class="form-floating">
+        
+          <p > {{ form.last_name(size=50) }}</p>
+         </div>
+
+      <div class="form-floating">
+          
+           <p > {{ form.major_id(size=1) }}</p>
+          </div>
+
+     <div class="form-floating">
+        
+          <p > {{ form.gender(size=50) }}</p>
+         </div>
+
+        <div class="form-floating">
+           
+             <p > {{ form.address(size=50) }}</p>
+            </div>
+          
+    <div class="form-floating">
+    
+      <p >{{ form.password(size=50) }}</p>
+    </div>
+
+	<div  class="form-floating">
+	    	
+	      <p >{{ form.password2(size=50) }}</p>
+		<span id="pass_error" style="visibility:hidden">Password doesn't match verification</span>
+	    </div>
+
+    <p class=" btn btn-lg btn-primary" >{{ form.submit() }}</p>
+     <p> Already have an account? Login <a href="/login">Here</a></p>
+  </form>
+  </div>
+
+  
+<script type="text/javascript">
+document.getElementById("password2").addEventListener("keyup", checkPassword, false);
+	
+	function checkPassword(){
+		var password = 	document.getElementById('pass').value;
+		var password2 = document.getElementById('password2').value;
+		if(password.substr(0,password2.length) != password2){
+			document.getElementById('pass_error').style.visibility='visible';
+		}else{
+			document.getElementById('pass_error').style.visibility='hidden';
+		}
+	}
+</script>
+
+
+    
+  </body>
+</html>

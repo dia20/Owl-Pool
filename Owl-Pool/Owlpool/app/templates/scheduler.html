@@ -1,0 +1,122 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Owl-Scheduler</title>
+
+	 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>   
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+    #to_location, #from_location{
+    	width:unset;
+    }
+      input{
+      	width:150px
+      }
+      #major_id{
+      	width:400px;
+      }
+      #email{width: unset;}
+      #submit{
+      	    border: unset;
+      	    color: white;
+			background : #007bff;
+	  }
+	  form{
+	  	background: white;
+	  	    padding: 5vh;
+	  	    margin-bottom: 5vh;
+	  	    margin-top: 5vh;
+	  }
+    </style>
+
+    
+    
+  </head>
+  <body class="text-center" style="display:flex;    background: #F5F5F6;">
+  
+<div style="margin:auto">
+
+  <form action=''  method='post'   novalidate>
+  {{ form.hidden_tag() }}
+<a href="/">
+	<img class="mb-4" src="{{ url_for('static', filename='images/scsulogo.png') }}" alt="" width="72" height="57">
+	</a>
+    <h1 style = 'color : #0069d9' class="h3 mb-3 fw-normal"> Schedule a Ride</h1>
+    	
+	    
+    
+    <div class="form-floating">
+         <p > {{ form.from_location(size=40) }}</p>
+    </div>
+
+    <div class="form-floating">
+        
+         <p > {{ form.to_location(size=40) }}</p>
+        </div>
+
+     <div   class="form-floating row" >
+        <label class="col-md-6" for ='floatingInput'> {{form.start_time.label}}: </label>
+          <p class="col-md-6"> {{ form.start_time(size=50) }}</p>
+         </div>
+         
+      <div class="form-floating row">
+      
+        <label class="col-md-6" for ='floatingInput'> {{form.start_date.label}}: </label>
+          <p class="col-md-6" > {{ form.start_date(size=50) }}</p>
+         </div>
+
+      <div class="form-floating row">
+      
+      <label class="col-md-6" for ='floatingInput'> {{form.end_time.label}}: </label>    
+           <p class="col-md-6"> {{ form.end_time(size=50) }}</p>
+          </div>
+
+    
+
+        <div class="form-floating row">
+           <label class="col-md-6" for ='floatingInput'> {{form.end_date.label}}: </label>
+             <p class="col-md-6" > {{ form.end_date(size=50) }}</p>
+            </div>
+          
+    <div class="form-floating row">
+    <label for ='floatingInput' > {{form.max_passengers.label}}: </label>
+          <span id="passengers"></span>
+
+      <p >{{ form.max_passengers(size=50) }}</p>
+    </div>
+
+	
+
+    <p class=" btn btn-lg btn-primary" >{{ form.submit() }}</p>
+	{%if time_error%}
+	<p>Start/End Time Conflict </p>
+	{%endif%}
+	{%if date_error%}
+	<p>Start/End Date Conflict </p>
+    {%endif%}
+  </form>
+  </div>
+  
+<script>
+$(window).on('load',function(){
+    $('#passengers').html('&nbsp 1 &nbsp');
+});
+$(document).on('input', '#max_passengers', function() {
+    $('#passengers').html('&nbsp'+ $(this).val()+ '&nbsp' );
+});
+</script> 
+
+
+
+    
+  </body>
+
+</html>

@@ -1,0 +1,21 @@
+{% include 'navbar.html'%}
+{%block content%}
+<div style="text-align:center">
+<h2>Ban Form</h2>
+
+<form action="" method="post" novalidate>
+{{ form.hidden_tag() }}
+<p> {{ form.user_id.label }}
+<br>
+	{{ form.user_id(size=10) }}
+</p>
+
+<p> {{ form.submit() }} </p>
+
+{% if notFound -%}
+<p>User Not Found!</p>
+{% endif %}
+</form>
+<div>
+{%endblock%}
+{% include 'footer.html'%}

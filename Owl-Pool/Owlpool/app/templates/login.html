@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Owl-Sign in</title>
+
+    
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <style>
+  
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+        
+      }
+      #submit{
+      	    border: unset;
+    color: white;
+    background: #007bff;
+      }
+      .signindiv{
+      	    display: flex;
+    /* -webkit-box-align: center; */
+    align-items: center;
+    /* -webkit-box-pack: center; */
+    justify-content: center;
+    min-height: 100vh;
+    min-width: 100vw;
+      }
+      form{
+      	    width: 370px;
+    background: white;
+    padding: 5%;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    height: fit-content;
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href= "{{url_for('static', filename= 'signin.css') }}" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    
+<div class="signindiv">
+  <form action=''  method='post' novalidate>
+  {{ form.hidden_tag() }}
+    <img class="mb-4" src="{{ url_for('static', filename='images/scsulogo.png') }}" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+	<p>New User? Click<a href='/sign_up'> Here</a>  </p>
+    <div class="form-floating">
+
+    <label for="floatingInput">{{ form.email.label  }} </label>
+     <p > {{ form.email(size=100) }}</p>
+    </div>
+    <div class="form-floating">
+    	<label for="floatingPassword">{{ form.password.label  }}</label>
+      <p >{{ form.password(size=100) }}</p>
+    </div>
+
+
+    <p class="w-100 btn btn-lg btn-primary" >{{ form.submit() }}</p>
+     {% if user_not_found  %}
+    <p> User not found  </p>
+    {% elif wrong_pass  %}
+    <p> Wrong Password  </p>
+     {% elif not_active  %}
+      <p> Account has been disabled check with administrators </p>
+      {% endif  %}
+  </form>
+  </div>
+
+
+
+    
+  </body>
+</html>

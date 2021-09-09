@@ -1,0 +1,31 @@
+{% include 'navbar.html'%}
+{%block content%}
+<style>
+th, td{
+	padding:20px;
+}
+
+
+</style>
+<div style="text-align:center">
+<h2>Reports</h2>
+		<table style="margin: 0 auto">
+			<tr>
+				<th>User ID</th>
+				<th>Description</th>
+				<th>Ban?</th>
+		</tr>
+		{% for report in reports %}
+
+		<tr>
+			<td>{{report.reported_id}}</td>
+			<td>{{report.description}}</td>
+			<td><a href="/banuser/{{report.reported_id}}">Ban User</a></td>
+
+		</tr>
+		{% endfor %}
+		</table>
+</div>	
+{% endblock %}
+		
+{% include 'footer.html'%}

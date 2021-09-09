@@ -1,0 +1,72 @@
+<style>
+::-webkit-scrollbar {
+visibility:hidden;
+}
+</style>
+<div class="board" style="width:100vw"	>
+<div class="container" style="overflow-y:scroll;margin-top:20px;height:370px;text-align:center;position:relative" >
+<h3>Announcements Board</h3>
+{% block content %}
+		{% for announcement in announcements %}
+    <div class="announcement">
+        <div class="row" style="display: flex; margin:auto">
+        	{% if announcement.flag =='Warning!' -%}
+
+            <p class="flag col-md-3 col-4 col-sm-3 col-lg-3" style="background-color:#FB9B03 ">{{announcement.flag}}</p>
+        	{% elif announcement.flag =='Notice' -%}
+			<p class="flag col-md-3 col-4 col-sm-3 col-lg-3" style="background-color:#1F76B1 ">{{announcement.flag}}</p>
+        	{% elif announcement.flag =='Alert' -%}
+            <p class="flag col-md-3 col-4 col-sm-3 col-lg-3" style="background-color:#FE2800 ">{{announcement.flag}}</p>
+			{%endif%}
+			{% if isAdmin -%}
+			   <a class="btn col-md-3 col-4 col-sm-3 col-lg-3" style="
+			   				position: absolute;
+			   			    right: 0;
+			   			    margin-top:-7px;
+			   			    text-align: end;"  href="/dn/{{ announcement.announcement_id}}">&times;</a>
+			   			     {%endif -%}
+            <p  class="col-md-3 col-4 col-sm-3 col-lg-3"  id="date">{{announcement.timestamp.strftime('%Y-%m-%d')}}</p>
+           
+           
+        </div>
+        <div class="row" style="display:flex">
+            <div class="img-with-text col-md-3">
+            			<!--User image or default avatar if user has no image -->
+			<img src="{{ url_for('static', filename= 'images/'+announcement.image | default('scsulogo.png')) }}" alt="brand"/>
+                <p style="text-align: center;">Administration</p>
+            </div>
+            <div  class="col-md-9">
+            <p id="desc">{{announcement.description}}</p>
+			</div>
+        </div>
+    </div>
+		{% endfor %}
+  
+
+
+</div>
+	{% if isAdmin -%}
+ <div class="addblock" style="margin-bottom:50px">
+	<h3>Add Announcement</h3>
+	<form action="" method='post' novalidate>
+	{{form.hidden_tag()}}
+	<p style="height:auto">
+			{{ form.flag.label }}
+			{{ form.flag(size=1) }}
+	</p>
+	<p>
+		{{ form.description.label }}
+		{{ form.description(size=100) }}
+	</p>
+	
+	<p>
+		{{form.submit()}}
+	</p>
+
+	</form>
+ </div>
+ 	{%endif%}
+</div>
+
+  
+{% endblock %}   

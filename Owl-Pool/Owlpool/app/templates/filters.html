@@ -1,0 +1,79 @@
+<style>
+
+.label-info {
+    background-color: #5bc0de;
+    border:1px transparent;
+    border-radius: 5px;
+}
+label{
+	 text-align: right;
+    clear: both;
+    float:left;
+    margin-right:15px;
+}
+form{
+	    border: 1px solid;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+</style>
+
+<form action="" method="post" novalidate >
+{{ form.hidden_tag() }}
+
+	<div class="form-floating row">
+		<div class=" col-md-4">
+			<label>{{form.from_location.label}} </label>
+			<p>{{form.from_location(size=20)}}</p>
+		</div>
+		<div class=" col-md-4">
+			<label>{{form.start_date.label}} </label>
+			<p>{{form.start_date(size=20)}}</p>
+		</div>
+		<div class=" col-md-4">
+			<label>{{form.end_date.label}} </label>
+			<p>{{form.end_date(size=20)}}</p>
+		</div>
+
+	</div>
+	<div class="form-floating row">
+		<div class=" col-md-4">
+			<label>{{form.to_location.label}} </label>
+			<p>{{form.to_location(size=20)}}</p>
+		</div>
+		<div class=" col-md-3">
+			<label>{{form.start_time.label}} </label>
+			<p>{{form.start_time(size=20)}}</p>
+		</div>
+		<div class=" col-md-3">
+			<label>{{form.end_time.label}} </label>
+			<p>{{form.end_time(size=20)}}</p>
+		</div>
+		<div class=" col-md-3">
+					<label>{{form.major_id.label}} </label>
+					<p>{{form.major_id(size=1)}}</p>
+		</div>
+	</div>
+		<div  class="form-floating row">
+				<div class="col-md-6" style="left:40%">
+					<label for="submit-btn" style="cursor:pointer;text-align: center;" > <img src="https://img.icons8.com/nolan/96/filter.png"/></label>
+					<p hidden>{{ form.submit() }}</p>
+				</div>
+				<div class="col-md-6">
+					<a href="/rides" ><img src="https://img.icons8.com/nolan/96/clear-filters.png"/></a>			
+				</div>
+		</div>
+
+	
+	</form>
+
+
+<script>
+$(window).on('load',function(){
+    $('#passengers').html('&nbsp 1');
+});
+$(document).on('input', '#max_passengers', function() {
+    $('#passengers').html('&nbsp'+ $(this).val() );
+});
+</script> 

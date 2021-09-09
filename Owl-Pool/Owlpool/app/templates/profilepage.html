@@ -1,0 +1,434 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<style>
+    body {
+        background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+    }
+.star-input {
+  display: none;
+}
+
+.star {
+  color: gold;
+}
+
+.star-input:checked + .star ~ .star {
+  color: white;
+}
+    .emp-profile {
+        padding: 3%;
+        margin-top: 3%;
+        margin-bottom: 3%;
+        border-radius: 0.5rem;
+        background: #fff;
+    }
+
+    .profile-img {
+        text-align: center;
+    }
+
+    .profile-img img {
+        width: 70%;
+        height: 100%;
+    }
+
+    .profile-img .file {
+        position: relative;
+        overflow: hidden;
+        margin-top: -20%;
+        width: 70%;
+        border: none;
+        border-radius: 0;
+        font-size: 15px;
+        background: #212529b8;
+    }
+
+    .profile-img .file input {
+        position: absolute;
+        opacity: 0;
+        right: 0;
+        top: 0;
+    }
+
+    .profile-head h5 {
+        color: #333;
+    }
+
+    .profile-head h6 {
+        color: #0062cc;
+    }
+
+    .profile-edit-btn {
+        border: none;
+        border-radius: 1.5rem;
+        width: 70%;
+        padding: 2%;
+        font-weight: 600;
+        color: #6c757d;
+        cursor: pointer;
+    }
+
+    .proile-rating {
+        font-size: 12px;
+        color: #818182;
+        margin-top: 5%;
+    }
+
+    .proile-rating span {
+        color: #495057;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+    .profile-head .nav-tabs {
+        margin-bottom: 5%;
+    }
+
+    .profile-head .nav-tabs .nav-link {
+        font-weight: 600;
+        border: none;
+    }
+
+    .profile-head .nav-tabs .nav-link.active {
+        border: none;
+        border-bottom: 2px solid #0062cc;
+    }
+
+    .profile-work {
+        padding: 14%;
+        margin-top: -15%;
+    }
+
+    .profile-work p {
+        font-size: 12px;
+        color: #818182;
+        font-weight: 600;
+        margin-top: 10%;
+    }
+
+    .profile-work a {
+        text-decoration: none;
+        color: #495057;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .profile-work ul {
+        list-style: none;
+    }
+
+    .profile-tab label {
+        font-weight: 600;
+    }
+
+    .profile-tab p {
+        font-weight: 600;
+        color: #0062cc;
+    }
+
+
+</style>
+{% include 'navbar.html' %}
+<div class="container emp-profile">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    {% if user_profile.image %}
+                    <img style="border-radius:50%;height:150px;width:150px"
+                        src="{{ url_for('static', filename='images/'+user_profile.image | default('user.png') ) }} " />
+                    {%else%}
+                    <img style="border-radius:50%;height:150px;width:150px"
+                        src="{{ url_for('static', filename='images/user.png') }} " />
+
+                    {%endif%}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5>
+                        {{user_profile.first_name }} {{ user_profile.last_name }}
+                    </h5>
+                    <h6>
+                        {{ major.major_name}}
+                    </h6>
+                    <p class="proile-rating">RATING : <span>{{ rating }}/5</span></p>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" style="color: #0062cc !important;" id="home-tab" data-toggle="tab" href="#About" role="tab"
+                                aria-controls="home" aria-selected="true">About</a>
+                        </li>
+                        {%if isMyProfile %}
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: #0062cc !important;"  id="ride-tab" data-toggle="tab" href="#Rides" role="tab"
+                                aria-controls="ride" aria-selected="false">My Rides</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="color: #0062cc !important;" id="history-tab" data-toggle="tab" href="#History" role="tab"
+                                aria-controls="history" aria-selected="false">Rides History </a>
+                        </li>
+                        <li class="nav-item">
+                        	<a class="nav-link" style="color: #0062cc !important;" id="request-tab" data-toggle="tab" href="#Requests" role="tab"
+                        		aria-controls="request" aria-selected="false">Rides Requests </a>
+                        </li>
+                        
+                        {%endif%}
+                    </ul>
+                </div>
+            </div>
+            {%if isMyProfile %}
+            <div class="col-md-2">
+                <a href="/edit_profile" class="profile-edit-btn" name="btnAddMore">Edit Profile</a>
+            </div>
+            {% else %}
+            <div class="col-md-2">
+                 <a href="/launch/{{ user_profile.user_id }}" class="btn-lg btn btn-primary" name="btnAddMore">Chat</a>
+            </div>
+            {%endif%}
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-work">
+                    <p>Interests</p>
+                    {% for interest in interests %}
+                    <a href="">{{ interest.name }}</a><br>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="tab-content profile-tab" id="myTabContent">
+                    <div class="tab-pane fade show active" id="About" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Gender</label>
+
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ user_profile.gender }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Email</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ user_profile.email }}</p>
+                            </div>
+                        </div>
+<div class="row">
+                            <div class="col-md-6">
+                                <label>Address</label>
+                            </div>
+                            <div class="col-md-6">
+                                <p>{{ user_profile.address }}</p>
+                            </div>
+                        </div>
+
+                    </div>
+                    {%if isMyProfile %}
+                    <div class="tab-pane fade" id="Rides" role="tabpanel" aria-labelledby="ride-tab">
+						<div class="row">
+							<div class="col-md-6">
+								<label>Active Rides as Driver</label>
+							</div>
+							
+							<div class="col-md-6">
+								{% for ride in driver_active %}
+													    																   	
+								<p>From: {{ride.from_location}}</p>
+								<p>To: {{ride.to_location}}</p>
+								<p>Start Time: {{ride.start_time}}</p>
+							    <p>End Time: {{ride.end_time}}</p>
+								<p>Start Date: {{ride.start_date}}</p>
+								<p>End Date: {{ride.end_date}}</p>
+								<p><a href="/cancel_driver/{{ride.ride_id}}">Cancel?</a></p>
+								<p><a href="/change_status/{{ride.ride_id}}">Complete?</a></p>
+								<hr />
+								{% endfor %}
+							
+						   </div>
+
+					    </div> <!-- end row div -->
+
+					    <br />
+					    <br />
+					    <hr />
+					    <br />
+					    <br />
+
+					    <div class="row">
+					    	<div class="col-md-6">
+					    		<label>Active Rides as Passenger</label>
+					    	</div>
+
+					    	<div class="col-md-6">
+					    								 	   	
+					    		{% for ride, ride_pas in passenger_active %}
+					    																   	
+					    		<p>From: {{ride.from_location}}</p>
+					    		<p>To: {{ride.to_location}}</p>
+					    		<p>Start Time: {{ride.start_time}}</p>
+					    		<p>End Time: {{ride.end_time}}</p>
+					    		<p>Start Date: {{ride.start_date}}</p>
+					    		<p>End Date: {{ride.end_date}}</p>
+					    		<p><a href="/cancel_passenger/{{ride.ride_id}}">Cancel?</a></p>
+					    		<hr />
+					    		{% endfor %}
+					    								
+					    	</div>          
+					   </div> <!-- end row div -->
+						   
+
+	
+                    </div> <!-- end rides -->
+
+
+
+
+                    
+                    <div class="tab-pane fade" id="History" role="tabpanel" aria-labelledby="history-tab">
+						<div class="row">
+							<div class="col-md-6">
+						    	<label>Rides as Driver</label>
+						    </div>
+
+						    <div class="col-md-6">
+						    	{% for ride in driver_history %}
+						    																   	
+						    	<p>From: {{ride.from_location}}</p>
+						     	<p>To: {{ride.to_location}}</p>
+						        <p>Start Time: {{ride.start_time}}</p>
+						        <p>End Time: {{ride.end_time}}</p>
+						    	<p>Start Date: {{ride.start_date}}</p>
+						    	<p>End Date: {{ride.end_date}}</p>
+						    	<hr />
+						    	{% endfor %}
+
+						    </div>
+					  </div> <!-- end row div -->	
+					  
+						    <br />
+						    <br />
+						    <hr />
+						  	<br />
+						  	<br />
+
+					<div class="row">
+						<div class="col-md-6">
+							<label>Rides as Passenger</label>
+						</div>
+							
+						<div class="col-md-6">
+							 	   	
+						{% for ride, ride_pas in passenger_history %}
+						<p>From: {{ride.from_location}}</p>
+						<p>To: {{ride.to_location}}</p>
+						<p>Start Time: {{ride.start_time}}</p>
+						<p>End Time: {{ride.end_time}}</p>
+						<p>Start Date: {{ride.start_date}}</p>
+						<p>End Date: {{ride.end_date}}</p>
+						<p><a onclick="showForm()"><u>Rate!</u></a></p>
+						
+						<div id="rating_form" style="display:none">
+						<form action="" method="post" class="row">
+				
+					<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+					<form>
+					<input type="text" name="ride_id" value="{{ride.ride_id}}" hidden >
+					<input type="radio" class="star-input" name="rating" id="star-1" value="1">
+					<label for="star-1" class="star"><i class="fas fa-star"></i></label>
+					<input type="radio" class="star-input" name="rating" id="star-2" value="2">
+					<label for="star-2" class="star"><i class="fas fa-star"></i></label>
+					<input type="radio" class="star-input" name="rating" id="star-3" value="3">
+					<label for="star-3" class="star"><i class="fas fa-star"></i></label>
+					<input type="radio" class="star-input" name="rating" id="star-4" value="4">
+					<label for="star-4" class="star"><i class="fas fa-star"></i></label>
+					<input type="radio" class="star-input" name="rating" id="star-5" value="5" checked>
+					<label for="star-5" class="star"><i class="fas fa-star"></i></label>
+					<button class="btn btn-primary" type="submit">Send</button>
+					</form>
+					
+					
+						</div>
+						<hr />
+						{% endfor %}
+							
+						</div>          
+					</div> <!-- end row div -->
+                    </div> <!-- end history -->
+				<script>
+						const form = document.querySelector('form');
+						form.addEventListener('submit', event => {
+						  const formData = new FormData(event.target);
+						  const rating = formData.get('rating');
+						  const ride_id = formData.get('ride_id');
+						  window.location.href='/rate/'+ride_id+'/'+rating;
+						  event.preventDefault();
+						});
+						
+						
+					
+				</script>
+				<div class="tab-pane fade" id="Requests" role="tabpanel" aria-labelledby="request-tab">
+                	<div class="row">
+                    	<div class="col-md-6">
+                    		<label>Requests to Join My Rides</label>
+                    	</div>
+                    	<!-- testing -->
+                    <div class="col-md-6">
+                    {% for user,request,ride in request_join %}
+                    												    																   	
+                    <p>Name: {{user.first_name}} {{user.last_name}}</p>
+                    <p>Pick up: {{ride.from_location}}</p>
+                    <p>Drop off: {{ride.to_location}}</p>
+                    <p>Departure Time: {{ride.start_date}} {{ride.start_date}}</p>
+                    <p><a href="/accept_request/{{ride.ride_id}}/{{request.requester}}">Accept?</a></p>
+                    <p><a href="/reject_request/{{ride.ride_id}}/{{request.requester}}">Reject?</a></p>
+                    <hr />
+                    {% endfor %}
+                    						
+                    </div>
+                    </div> <!-- end row div -->
+
+                    <div class="row">
+                    <div class="col-md-6">
+                    	<label>My Requests</label>
+                    </div>
+                   <!-- testing -->
+                   <div class="col-md-6">
+                   {% for user,ride,request in request_sent %}
+                                        												    																   	
+                   <p>Name: {{user.first_name}} {{user.last_name}}</p>
+                   <p>Pick up: {{ride.from_location}}</p>
+                   <p>Drop off: {{ride.to_location}}</p>
+                   <p>Departure Time: {{ride.start_date}} {{ride.start_date}}</p>
+                   <hr />
+                   {% endfor %}
+                                        						
+                   </div>
+                   </div> <!-- end row div -->	
+                  
+                    
+                </div> <!-- end requests div -->
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+ <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/all.js"></script>
+ <script defer src="https://use.fontawesome.com/releases/v5.15.1/js/v4-shims.js"></script>
+<script>
+function showForm() {
+  var x = document.getElementById("rating_form");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+

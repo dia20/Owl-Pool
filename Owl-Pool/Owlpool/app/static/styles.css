@@ -1,0 +1,49 @@
+		.addblock {
+			border: 1px solid #1F76B1;
+			border-radius: 5px;
+			position: relative;
+			margin-top: 15px;
+			text-align:center;
+		}
+		.announcement {
+            border: 1px solid #1F76B1;
+            border-radius: 5px;
+            position: relative;
+    		margin-bottom: 5px;
+        }
+        .board{
+        	text-align:center;
+        	display:inline-block;
+        }
+
+        .img-with-text {
+            align-items: center;
+            text-align: justify;
+            
+
+        }
+
+        .img-with-text img {
+            display: block;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto;
+            border-radius: 50px;
+        }
+
+        .flag {
+            color: white;
+            border: 1px solid transparent;
+            border-radius: 5px;
+            padding: 3px;
+            margin-top: 0 !important;
+        }
+
+        #date {
+            position: absolute;
+            right: 0;
+            margin-right:15px;
+			text-align:end;
+
+        }
+		
